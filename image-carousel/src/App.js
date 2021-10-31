@@ -45,12 +45,13 @@ class App extends React.Component {
             this.setState({catsSharksList: res})
         })
 
-        
+        //default to shark images
+        document.getElementById('sharkBtn').checked = true
     }
 
     setAnimal = (event, animal) => {
-        var sharkBtn = document.getElementById('btncheck1').checked
-        var catBtn = document.getElementById('btncheck2').checked
+        var sharkBtn = document.getElementById('sharkBtn').checked
+        var catBtn = document.getElementById('catBtn').checked
         this.setState({index: 0})
 
         if (catBtn && sharkBtn) {
@@ -63,6 +64,10 @@ class App extends React.Component {
         }
         else if (!catBtn && sharkBtn) {
             //console.log('shark only')
+            this.setState({currentAnimalList: this.state.sharksList})
+        }
+        else if (!catBtn && !sharkBtn) {
+            document.getElementById('sharkBtn').checked = true
             this.setState({currentAnimalList: this.state.sharksList})
         }
         //console.log(this.state.currentAnimalList)
@@ -89,17 +94,16 @@ class App extends React.Component {
         return (
             <div className="App">
                 <div className="container">
-                    <div className="row justify-content-md-center">
-                        <div className="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <div className="row">
+                        <div className="btn-group justify-content-center" role="group" aria-label="Basic checkbox toggle button group" style={{margin:"20px"}}>
                             <div className="col col-lg-2">
-                                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" onChange={(e) => this.setAnimal(e, 'shark')}></input>
-                                <label class="btn btn-outline-primary" for="btncheck1">Shark</label>
+                                <input type="checkbox" class="btn-check" id="sharkBtn" autocomplete="off" onChange={(e) => this.setAnimal(e, 'shark')}></input>
+                                <label class="btn btn-outline-primary" for="sharkBtn">Shark</label>
                             </div>
                             <div className="col col-lg-2">
-                                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" onChange={(e) => this.setAnimal(e, 'cat')}></input>
-                                <label className="btn btn-outline-primary" for="btncheck2">Cat</label>
+                                <input type="checkbox" class="btn-check" id="catBtn" autocomplete="off" onChange={(e) => this.setAnimal(e, 'cat')}></input>
+                                <label className="btn btn-outline-primary" for="catBtn">Cat</label>
                             </div>
-          
                         </div>
                     </div>
                     <Carosel animalList={this.state.currentAnimalList} index={this.state.index} navigateLeft={this.navigateLeft} navigateRight={this.navigateRight}/>
